@@ -26,5 +26,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ayanavakarmakar/openchat-backend:$(date +%s)
-            ayanavakarmakar/openchat-backend:latest
+            openchat-backend:$(date +%s)
+            openchat-backend:latest
