@@ -19,7 +19,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and push Docker image
+      - name: Build and push Docker image (with "date" tag)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ayanavakarmakar/openchat-backend:$(date +%s)
+      - name: Build and push Docker image (with "latest" tag)
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v2
         with:
