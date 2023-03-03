@@ -10,7 +10,7 @@ namespace Chat.Models
         public string? Timestamp { get; set; }
     }
 
-    class ChatDB : DbContext
+    public class ChatDB : DbContext
     {
         public ChatDB(DbContextOptions options) : base(options) { }
         public DbSet<Message> Messages { get; set; } = null!;
