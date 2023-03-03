@@ -12,15 +12,20 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1"
     });
 });
+builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenChat API V1");
 });
-
-app.MapGet("/", () => "Hello World!");
 
 app.Run();
