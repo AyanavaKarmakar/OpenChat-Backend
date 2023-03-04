@@ -50,5 +50,28 @@ namespace OpenChat.Message.Controllers
 
             return Ok(message);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMessage(int id, Message message)
+        {
+            if (message == null)
+            {
+                return BadRequest("Message object is null");
+            }
+
+            var messageToUpdate = await _db.Messages.FirstOrDefaultAsync(message => message.Id == id);
+
+            if (messageToUpdate == null)
+            {
+                return NotFound("Message not found");
+            }
+
+            messageToUpdate.MessageContent = message.MessageContent;
+            messageToUpdate.Timestamp = message.Timestamp;
+
+            await _db.SaveChangesAsync();
+
+            return Ok(messageToUpdate);
+        }
     }
 }
