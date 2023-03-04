@@ -5,7 +5,7 @@ using Chat.Models;
 namespace OpenChat.Message.Controllers
 {
     [ApiController]
-    [Route("/api/v1")]
+    [Route("/api/v1/messages")]
     public class MessageController : ControllerBase
     {
         private readonly ChatDB _db;
@@ -15,7 +15,7 @@ namespace OpenChat.Message.Controllers
             _db = db;
         }
 
-        [HttpGet("/messages")]
+        [HttpGet]
         public async Task<IActionResult> GettMessages()
         {
             var messages = await _db.Messages.ToListAsync();
