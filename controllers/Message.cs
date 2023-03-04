@@ -24,6 +24,19 @@ namespace OpenChat.Message.Controllers
             return Ok(messages);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMessageById(int id)
+        {
+            var message = await _db.Messages.FirstOrDefaultAsync(message => message.Id == id);
+
+            if (message == null)
+            {
+                return NotFound("Message not found");
+            }
+
+            return Ok(message);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMessage(Message message)
         {
