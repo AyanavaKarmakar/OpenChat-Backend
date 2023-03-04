@@ -25,17 +25,17 @@ namespace OpenChat.Auth.Controllers
         }
 
         [HttpPost("login")]
-        public Task<ActionResult<string>> Login(UserDto request)
+        public ActionResult Login(UserDto request)
         {
             if (user.Username == request.Username)
             {
                 if (VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
                 {
-                    return Task.FromResult<ActionResult<string>>(new ActionResult<string>("User logged in"));
+                    return Ok("user logged in");
                 }
             }
 
-            return Task.FromResult<ActionResult<string>>(new ActionResult<string>("User not found"));
+            return BadRequest("Username or password is incorrect");
         }
 
         // create a password hash and salt
