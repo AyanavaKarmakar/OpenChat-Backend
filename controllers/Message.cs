@@ -73,5 +73,21 @@ namespace OpenChat.Message.Controllers
 
             return Ok(messageToUpdate);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
+        {
+            var message = await _db.Messages.FirstOrDefaultAsync(message => message.Id == id);
+
+            if (message == null)
+            {
+                return NotFound("Message not found");
+            }
+
+            _db.Messages.Remove(message);
+            await _db.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
