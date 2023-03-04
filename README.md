@@ -37,4 +37,5 @@ dotnet run
 
 ## API Documentation
 
-![Swagger UI](https://user-images.githubusercontent.com/89210438/222810062-fb0dc103-c546-4d27-b340-0cd30f7ca827.png)
+![Swagger UI](https://user-images.githubusercontent.com/89210438/222895898-6d2380f6-fa93-43aa-8c25-f72f50c8b64b.png)
+
