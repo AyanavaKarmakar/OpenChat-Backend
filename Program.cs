@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Chat.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("Chat") ?? "Data Source=Chat.db";
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContext<ChatDB>(options => options.UseInMemoryDatabase("messages"));
+builder.Services.AddSqlite<ChatDB>(connectionString);
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
