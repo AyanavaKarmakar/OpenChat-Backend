@@ -1,8 +1,11 @@
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using Chat.User;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using Chat.UserDto;
+using Chat.User;
 
 namespace OpenChat.Auth.Controllers
 {
@@ -11,6 +14,12 @@ namespace OpenChat.Auth.Controllers
     public class AuthController : ControllerBase
     {
         public static User user = new User();
+        private readonly IConfiguration _configuation;
+
+        public AuthController(IConfiguration configuation)
+        {
+            _configuation = configuation;
+        }
 
         [HttpPost("register")]
         public Task<ActionResult<User>> Register(UserDto request)
@@ -31,11 +40,34 @@ namespace OpenChat.Auth.Controllers
             {
                 if (VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
                 {
-                    return Ok("user logged in");
+                    string token = CreateToken(user);
+                    return Ok(token);
                 }
             }
 
             return BadRequest("Username or password is incorrect");
+        }
+
+        private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>{
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuation
+                .GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(30),
+                signingCredentials: creds
+            );
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
         }
 
         // create a password hash and salt
