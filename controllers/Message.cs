@@ -4,6 +4,8 @@ using Chat.Models;
 
 namespace OpenChat.Message.Controllers
 {
+    using Message = Chat.Models.Message;
+
     [ApiController]
     [Route("/api/v1/messages")]
     public class MessageController : ControllerBase
@@ -20,6 +22,20 @@ namespace OpenChat.Message.Controllers
         {
             var messages = await _db.Messages.ToListAsync();
             return Ok(messages);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMessage(Message message)
+        {
+            if (message == null)
+            {
+                return BadRequest("Message object is null");
+            }
+
+            await _db.Messages.AddAsync(message);
+            await _db.SaveChangesAsync();
+
+            return Ok(message);
         }
     }
 }
