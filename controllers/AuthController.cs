@@ -12,7 +12,7 @@ namespace OpenChat.Auth.Controllers
     {
         public static User user = new User();
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public Task<ActionResult<User>> Register(UserDto request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
