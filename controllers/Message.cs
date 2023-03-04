@@ -24,6 +24,19 @@ namespace OpenChat.Message.Controllers
             return Ok(messages);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMessageById(int id)
+        {
+            var message = await _db.Messages.FirstOrDefaultAsync(message => message.Id == id);
+
+            if (message == null)
+            {
+                return NotFound("Message not found");
+            }
+
+            return Ok(message);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMessage(Message message)
         {
@@ -36,6 +49,45 @@ namespace OpenChat.Message.Controllers
             await _db.SaveChangesAsync();
 
             return Ok(message);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMessage(int id, Message message)
+        {
+            if (message == null)
+            {
+                return BadRequest("Message object is null");
+            }
+
+            var messageToUpdate = await _db.Messages.FirstOrDefaultAsync(message => message.Id == id);
+
+            if (messageToUpdate == null)
+            {
+                return NotFound("Message not found");
+            }
+
+            messageToUpdate.MessageContent = message.MessageContent;
+            messageToUpdate.Timestamp = message.Timestamp;
+
+            await _db.SaveChangesAsync();
+
+            return Ok(messageToUpdate);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
+        {
+            var message = await _db.Messages.FirstOrDefaultAsync(message => message.Id == id);
+
+            if (message == null)
+            {
+                return NotFound("Message not found");
+            }
+
+            _db.Messages.Remove(message);
+            await _db.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
