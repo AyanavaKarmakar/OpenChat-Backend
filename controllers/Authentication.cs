@@ -6,11 +6,13 @@ namespace OpenChat.Authentication.Controllers
 {
     [ApiController]
     [Route("/api/v1/auth")]
+    public class ApplicationUser : IdentityUser { }
+
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthenticationController(UserManager<IdentityUser> userManager)
+        public AuthenticationController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -26,7 +28,7 @@ namespace OpenChat.Authentication.Controllers
             }
 
             // create a new user
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = model.Username,
                 Email = model.Email
