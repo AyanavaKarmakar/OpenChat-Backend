@@ -20,7 +20,7 @@ namespace OpenChat.Message.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllMessages()
         {
-            var messages = await _db.Messages.ToListAsync();
+            var messages = await _db.Messages.OrderByDescending(message => message.Timestamp).ToListAsync();
             return Ok(messages);
         }
 
