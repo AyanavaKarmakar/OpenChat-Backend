@@ -10,9 +10,19 @@ namespace Chat.Models
         public string? Timestamp { get; set; }
     }
 
+    public class UserEntity
+    {
+        public int Id { get; set; }
+        public string Username { get; set; } = null!;
+        public byte[]? PasswordHash { get; set; } = null!;
+        public byte[]? PasswordSalt { get; set; } = null!;
+    }
+
     public class ChatDB : DbContext
     {
         public ChatDB(DbContextOptions options) : base(options) { }
         public DbSet<Message> Messages { get; set; } = null!;
+        public DbSet<UserEntity> Users { get; set; } = null!;
+
     }
 }

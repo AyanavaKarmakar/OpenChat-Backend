@@ -3,9 +3,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Chat.UserDto;
-using Chat.User;
+using Chat.Models;
 
 namespace OpenChat.Auth.Controllers
 {
@@ -13,42 +14,57 @@ namespace OpenChat.Auth.Controllers
     [Route("/api/v1/auth")]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        private readonly ChatDB _context;
         private readonly IConfiguration _configuation;
 
-        public AuthController(IConfiguration configuation)
+        public AuthController(ChatDB context, IConfiguration configuation)
         {
+            _context = context;
             _configuation = configuation;
         }
 
         [HttpPost("register")]
-        public Task<ActionResult<User>> Register(UserDto request)
+        public async Task<IActionResult> Register(UserDto request)
         {
+            if (await _context.Users.AnyAsync(user => user.Username == request.Username))
+            {
+                return BadRequest("Username already taken");
+            }
+
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.Username = request.Username;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            var user = new UserEntity
+            {
+                Username = request.Username,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
 
-            return Task.FromResult<ActionResult<User>>(new ActionResult<User>(user));
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
         }
 
         [HttpPost("login")]
-        public ActionResult Login(UserDto request)
+        public async Task<IActionResult> Login(UserDto request)
         {
-            if (user.Username == request.Username)
+            var user = await _context.Users.SingleOrDefaultAsync(user => user.Username == request.Username);
+
+            if (user == null)
             {
-                if (VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-                {
-                    string token = CreateToken(user);
-                    return Ok(token);
-                }
+                return Unauthorized("User doesn't exist");
+            }
+            else if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                return Unauthorized("Login failed");
             }
 
-            return BadRequest("Username or password is incorrect");
+            var token = CreateToken(user);
+            return Ok(token);
         }
 
-        private string CreateToken(User user)
+        private string CreateToken(UserEntity user)
         {
             List<Claim> claims = new List<Claim>{
                 new Claim(ClaimTypes.Name, user.Username)
@@ -81,12 +97,17 @@ namespace OpenChat.Auth.Controllers
         }
 
         // verify password hash and salt
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        private bool VerifyPasswordHash(string password, byte[]? passwordHash, byte[]? passwordSalt)
         {
+            if (passwordHash == null || passwordSalt == null)
+            {
+                return false;
+            }
+
             using (var hmac = new HMACSHA512(passwordSalt))
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(user.PasswordHash);
+                return computedHash.SequenceEqual(passwordHash);
             }
         }
     }
