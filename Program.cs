@@ -13,8 +13,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "OpenChat API",
-        Description = "REST API for OpenChat",
+        Title = "OPENCHAT API",
+        Description = "REST API for OPENCHAT",
         Version = "v1"
     });
 });
@@ -41,7 +41,7 @@ app.UseEndpoints(endpoints =>
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenChat API V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OPENCHAT API V1");
 });
 
 

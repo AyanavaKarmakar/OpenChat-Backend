@@ -11,7 +11,7 @@ namespace OpenChat.Greeting.Controllers
         {
             var response = new
             {
-                message = "Welcome to OpenChat!"
+                message = "Welcome to OPENCHAT!"
             };
             return Ok(response);
         }
