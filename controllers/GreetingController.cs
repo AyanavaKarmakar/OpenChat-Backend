@@ -9,12 +9,11 @@ namespace OpenChat.Greeting.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new ContentResult
+            var response = new
             {
-                ContentType = "text/html",
-                Content = "<h1 align=\"center\">Welcome to OpenChat!</h1>",
-                StatusCode = 200
+                message = "Welcome to OpenChat!"
             };
+            return Ok(response);
         }
     }
 }

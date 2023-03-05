@@ -24,11 +24,13 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
     {
-        builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
+        builder.WithOrigins("*").WithMethods("*").WithHeaders("*");
     });
 });
 
 var app = builder.Build();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseRouting();
 app.UseEndpoints(endpoints =>
@@ -42,6 +44,5 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenChat API V1");
 });
 
-app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
