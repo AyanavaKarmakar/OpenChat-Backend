@@ -12,7 +12,7 @@ namespace OpenChat.Greeting.Controllers
             return new ContentResult
             {
                 ContentType = "text/html",
-                Content = "<h1 align=\"center\">Welcome to OpenChat API!</h1>",
+                Content = "<h1 align=\"center\">Welcome to OpenChat!</h1>",
                 StatusCode = 200
             };
         }
