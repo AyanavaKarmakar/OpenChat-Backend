@@ -21,6 +21,7 @@ git clone https://github.com/AyanavaKarmakar/OpenChatBackend.git
 
 ```bash
 dotnet restore
+dotnet ef database update
 ```
 
 3. Run the project
