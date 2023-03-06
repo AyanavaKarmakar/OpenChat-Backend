@@ -24,7 +24,7 @@ namespace OpenChat.Auth.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserDto request)
+        public async Task<IActionResult> Register([FromBody] UserDto request)
         {
             if (await _context.Users.AnyAsync(user => user.Username == request.Username))
             {
@@ -58,7 +58,7 @@ namespace OpenChat.Auth.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserDto request)
+        public async Task<IActionResult> Login([FromBody] UserDto request)
         {
             var user = await _context.Users.SingleOrDefaultAsync(user => user.Username == request.Username);
 
