@@ -47,7 +47,14 @@ namespace OpenChat.Auth.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(user);
+            var token = CreateToken(user);
+            var SuccessResponse = new
+            {
+                username = user.Username,
+                token = token
+            };
+
+            return Ok(SuccessResponse);
         }
 
         [HttpPost("login")]
@@ -73,7 +80,13 @@ namespace OpenChat.Auth.Controllers
             }
 
             var token = CreateToken(user);
-            return Ok(token);
+            var SuccessResponse = new
+            {
+                username = user.Username,
+                token = token
+            };
+
+            return Ok(SuccessResponse);
         }
 
         private string CreateToken(UserEntity user)
