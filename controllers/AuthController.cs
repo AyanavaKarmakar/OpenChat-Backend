@@ -28,7 +28,11 @@ namespace OpenChat.Auth.Controllers
         {
             if (await _context.Users.AnyAsync(user => user.Username == request.Username))
             {
-                return BadRequest("Username already taken");
+                var response = new
+                {
+                    message = "Username already taken"
+                };
+                return BadRequest(response);
             }
 
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -53,11 +57,19 @@ namespace OpenChat.Auth.Controllers
 
             if (user == null)
             {
-                return Unauthorized("User doesn't exist");
+                var response = new
+                {
+                    message = "User doesn't exist"
+                };
+                return Unauthorized(response);
             }
             else if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return Unauthorized("Login failed");
+                var response = new
+                {
+                    message = "Login failed"
+                };
+                return Unauthorized(response);
             }
 
             var token = CreateToken(user);
