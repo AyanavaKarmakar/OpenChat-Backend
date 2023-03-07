@@ -31,7 +31,11 @@ namespace OpenChat.Message.Controllers
 
             if (message == null)
             {
-                return NotFound("Message not found");
+                var NotFoundResponse = new
+                {
+                    message = "Message not found"
+                };
+                return NotFound(NotFoundResponse);
             }
 
             return Ok(message);
@@ -42,7 +46,11 @@ namespace OpenChat.Message.Controllers
         {
             if (message == null)
             {
-                return BadRequest("Message object is null");
+                var BadRequestResponse = new
+                {
+                    message = "Message object is null"
+                };
+                return BadRequest(BadRequestResponse);
             }
 
             await _db.Messages.AddAsync(message);
@@ -56,14 +64,22 @@ namespace OpenChat.Message.Controllers
         {
             if (message == null)
             {
-                return BadRequest("Message object is null");
+                var BadRequestResponse = new
+                {
+                    message = "Message object is null"
+                };
+                return BadRequest(BadRequestResponse);
             }
 
             var messageToUpdate = await _db.Messages.FirstOrDefaultAsync(message => message.Id == id);
 
             if (messageToUpdate == null)
             {
-                return NotFound("Message not found");
+                var NotFoundResponse = new
+                {
+                    message = "Message not found"
+                };
+                return NotFound(NotFoundResponse);
             }
 
             messageToUpdate.MessageContent = message.MessageContent;
@@ -81,7 +97,11 @@ namespace OpenChat.Message.Controllers
 
             if (message == null)
             {
-                return NotFound("Message not found");
+                var BadRequestResponse = new
+                {
+                    message = "Message object is null"
+                };
+                return BadRequest(BadRequestResponse);
             }
 
             _db.Messages.Remove(message);
