@@ -60,9 +60,9 @@ namespace OpenChat.Message.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMessage(int id, Message message)
+        public async Task<IActionResult> UpdateMessage(int id, [FromBody] String messageContent)
         {
-            if (message == null)
+            if (messageContent == null)
             {
                 var BadRequestResponse = new
                 {
@@ -82,8 +82,7 @@ namespace OpenChat.Message.Controllers
                 return NotFound(NotFoundResponse);
             }
 
-            messageToUpdate.MessageContent = message.MessageContent;
-            messageToUpdate.Timestamp = message.Timestamp;
+            messageToUpdate.MessageContent = messageContent;
 
             await _db.SaveChangesAsync();
 
