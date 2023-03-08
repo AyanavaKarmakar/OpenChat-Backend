@@ -60,7 +60,7 @@ namespace OpenChat.Message.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMessage(int id, [FromBody] String messageContent)
+        public async Task<IActionResult> UpdateMessage(int id, [FromBody] string messageContent)
         {
             if (messageContent == null)
             {
