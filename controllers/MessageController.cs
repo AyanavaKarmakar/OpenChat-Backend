@@ -107,7 +107,11 @@ namespace OpenChat.Message.Controllers
             _db.Messages.Remove(message);
             await _db.SaveChangesAsync();
 
-            return Ok();
+            var OkResponse = new
+            {
+                message = "Message deleted successfully"
+            };
+            return Ok(OkResponse);
         }
     }
 }
