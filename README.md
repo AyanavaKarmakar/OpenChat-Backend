@@ -1,6 +1,4 @@
-# [OPENCHAT](https://github.com/AyanavaKarmakar/OpenChat-Frontend)-Backend (Work in Progress)
-
-Backend for OPENCHAT, built using ASP.NET Core.
+![OpenChat-Backend](https://socialify.git.ci/AyanavaKarmakar/OpenChat-Backend/image?description=1&font=Raleway&language=1&name=1&pattern=Solid&theme=Dark)
 
 ## Getting Started
 
