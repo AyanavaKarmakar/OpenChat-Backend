@@ -17,7 +17,7 @@ namespace OpenChatBackend.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Sender = table.Column<string>(type: "TEXT", nullable: true),
                     MessageContent = table.Column<string>(type: "TEXT", nullable: true),
-                    Timestamp = table.Column<string>(type: "TEXT", nullable: true)
+                    Timestamp = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

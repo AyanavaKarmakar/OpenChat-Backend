@@ -29,7 +29,7 @@ namespace OpenChatBackend.Migrations
                     b.Property<string>("Sender")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Timestamp")
+                    b.Property<DateTime?>("Timestamp")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OpenChatBackend.Migrations
 {
     [DbContext(typeof(ChatDB))]
-    [Migration("20230305121100_InitialCreate")]
+    [Migration("20230309160752_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace OpenChatBackend.Migrations
                     b.Property<string>("Sender")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Timestamp")
+                    b.Property<DateTime?>("Timestamp")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
