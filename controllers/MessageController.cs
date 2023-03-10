@@ -98,7 +98,7 @@ namespace OpenChat.Message.Controllers
             {
                 var BadRequestResponse = new
                 {
-                    message = "Message object is null"
+                    message = "message not found"
                 };
                 return BadRequest(BadRequestResponse);
             }
