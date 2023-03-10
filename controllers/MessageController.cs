@@ -42,7 +42,7 @@ namespace OpenChat.Message.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMessage(Message message)
+        public async Task<IActionResult> CreateMessage(Message? message)
         {
             if (message == null)
             {
