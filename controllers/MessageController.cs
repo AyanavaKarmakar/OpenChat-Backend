@@ -96,11 +96,11 @@ namespace OpenChat.Message.Controllers
 
             if (message == null)
             {
-                var BadRequestResponse = new
+                var NotFoundResponse = new
                 {
                     message = "message not found"
                 };
-                return BadRequest(BadRequestResponse);
+                return NotFound(NotFoundResponse);
             }
 
             _db.Messages.Remove(message);
