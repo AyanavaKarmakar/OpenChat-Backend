@@ -42,7 +42,7 @@ namespace OpenChat.Message.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMessage(Message message)
+        public async Task<IActionResult> CreateMessage(Message? message)
         {
             if (message == null)
             {
@@ -60,7 +60,7 @@ namespace OpenChat.Message.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMessage(int id, [FromBody] string messageContent)
+        public async Task<IActionResult> UpdateMessage(int id, [FromBody] string? messageContent)
         {
             if (messageContent == null)
             {
@@ -96,11 +96,11 @@ namespace OpenChat.Message.Controllers
 
             if (message == null)
             {
-                var BadRequestResponse = new
+                var NotFoundResponse = new
                 {
-                    message = "Message object is null"
+                    message = "message not found"
                 };
-                return BadRequest(BadRequestResponse);
+                return NotFound(NotFoundResponse);
             }
 
             _db.Messages.Remove(message);
